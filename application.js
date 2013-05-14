@@ -29,8 +29,8 @@ google.load('search', '1');
     
     function setVideoPosition(videoWidth, videoHeight){
       var pos = { x : 0, y : 0 }
-      pos.x = $.random(-videoWidth/20, windowWidth-(videoWidth/20));
-      pos.y = $.random(-videoHeight/20, windowHeight-(videoHeight/20));
+      pos.x = $.random(videoWidth, windowWidth);
+      pos.y = $.random(videoHeight, windowHeight);
       return(pos);
     }
     
