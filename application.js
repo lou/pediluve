@@ -29,9 +29,9 @@ google.load('search', '1');
     
     function setVideoPosition(videoWidth, videoHeight){
       var pos = { x : 0, y : 0 }
-      pos.x = $.random(videoWidth, windowWidth);
-      pos.y = $.random(videoHeight, windowHeight);
-      return(pos);
+      pos.x = Math.floor($.random(-videoWidth/20, windowWidth-(videoWidth/20)));
+      pos.y = Math.floor($.random(-videoHeight/20, windowHeight-(videoHeight/20)));
+      return pos;
     }
     
     function setImg(url, width, height, provider){
@@ -46,7 +46,7 @@ google.load('search', '1');
                                   max-height: '+windowHeight+'px;\
                                   max-width: '+windowWidth+'px;\
                                   opacity: 0.'+$.random(2, 6)+'" />');
-      $('body').append(thumb);
+      $('#container').append(thumb);
       thumb.load(function(){
         $(this).fadeIn(10000, function(){
           $(this).fadeOut(30000, function(){
@@ -61,19 +61,25 @@ google.load('search', '1');
       if (videoSearch.results && videoSearch.results.length > 0) {
         for(var cpt = 0; cpt < $.random(5, videoSearch.results.length) ; cpt++){
           if (videoSearch.results[cpt]){
-            var videoWidth = $.random(200, 800);
-            var videoHeight = $.random(200, 800);
+            var videoWidth = $.random(300, 800);
+            var videoHeight = $.random(300, 800);
             var pos = setVideoPosition(videoWidth, videoHeight);
-            var embed = $('<div></div>', {
-              id: 'video-'+cpt,
-              style: 'position:absolute;top:'+pos.y+'px;left:'+pos.x+'px;',
+            var wrapper = $('<div></div>', {
+              id: 'video-wrapper-'+cpt,
+              style: 'position:absolute;top:'+pos.y+'px;left:'+pos.x+'px;height:'+videoHeight+'px;width:'+videoWidth+'px',
             });
-            $('body').append(embed);
-            jwplayer('video-'+cpt).setup({
+            var container = $('<div></div>', {
+              id: 'video-'+cpt,
+            })
+            wrapper.append(container)
+            $('#container').append(wrapper);
+            var player = jwplayer('video-'+cpt).setup({
               file: videoSearch.results[cpt].url,
               height: videoHeight,
               width: videoWidth
-            }).play(true);
+            });
+            $(player.container).css({ top: pos.y });
+            player.play(true);
           }
         }
       }
@@ -143,7 +149,7 @@ google.load('search', '1');
       query = query.replace('+', ' ');
       $('#search_query').val(query);
       searchWithGoogleVideo(query);
-      searchWithFlickr(query);
+      // searchWithFlickr(query);
       // searchWithGoogle(query);
     }
     
