@@ -15,27 +15,18 @@ google.load('search', '1');
     
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
-    var googleSearch;
-    var googlePage = 1;
     var flickrPage = 1;
     var videoSearch;
-
-    function setImgPosition(imgWidth, imgHeight){
-      var pos = { x : 0, y : 0 }
-      pos.x = $.random(-imgWidth/3, windowWidth-(imgWidth/3));
-      pos.y = $.random(-imgHeight/3, windowHeight-(imgHeight/3));
-      return(pos);
-    }
     
-    function setVideoPosition(videoWidth, videoHeight){
+    function setAssetPosition(videoWidth, videoHeight, ratio){
       var pos = { x : 0, y : 0 }
-      pos.x = Math.floor($.random(-videoWidth/200, windowWidth-(videoWidth/200)));
-      pos.y = Math.floor($.random(-videoHeight/200, windowHeight-(videoHeight/200)));
+      pos.x = Math.floor($.random(-videoWidth/ratio, windowWidth-(videoWidth/ratio)));
+      pos.y = Math.floor($.random(-videoHeight/ratio, windowHeight-(videoHeight/ratio)));
       return pos;
     }
     
     function setImg(url, width, height, provider){
-      var pos = setImgPosition(width, height);
+      var pos = setAssetPosition(width, height, 3);
       var thumb = $('<img src="'+url+'?+'+Math.random()*Math.random()+'"\
                           class="search '+provider+'"\
                           style=" left:'+pos.x+'px;\
@@ -63,7 +54,7 @@ google.load('search', '1');
           if (videoSearch.results[cpt]){
             var videoWidth = $.random(300, 800);
             var videoHeight = $.random(300, 800);
-            var pos = setVideoPosition(videoWidth, videoHeight);
+            var pos = setAssetPosition(videoWidth, videoHeight, 200);
             var wrapper = $('<div></div>', {
               id: 'video-wrapper-'+cpt,
               style: 'position:absolute;top:'+pos.y+'px;left:'+pos.x+'px;height:'+videoHeight+'px;width:'+videoWidth+'px',
@@ -92,32 +83,6 @@ google.load('search', '1');
        videoSearch.setResultSetSize(10);
        videoSearch.execute(query);
        videoSearch.clearResults();
-    }
-    
-    function googleSearchComplete(){
-      if (googleSearch.results && googleSearch.results.length > 0) {
-        for(var cpt = 0; cpt < googleSearch.results.length ; cpt++){
-          setImg(googleSearch.results[cpt].url, googleSearch.results[cpt].width, googleSearch.results[cpt].height, 'google');
-        }
-        googleSearch.gotoPage(googlePage++);
-      }
-    }
-    
-    function searchWithGoogle(query){
-      googleSearch = new google.search.ImageSearch();
-      googleSearch.setSearchCompleteCallback(this, googleSearchComplete, null);
-      googleSearch.setRestriction(
-        google.search.ImageSearch.RESTRICT_FILETYPE,
-        google.search.ImageSearch.FILETYPE_JPG
-      );
-      googleSearch.setRestriction(
-        google.search.Search.RESTRICT_SAFESEARCH,
-        google.search.Search.SAFESEARCH_OFF
-      );
-      googleSearch.setResultSetSize(1);
-      googleSearch.execute(query);
-      googleSearch.clearResults();
-      googlePage = 1;
     }
     
     function searchWithFlickr(query){
@@ -151,7 +116,6 @@ google.load('search', '1');
       $('#search_query').val(query);
       searchWithFlickr(query);
       searchWithGoogleVideo(query);
-      // searchWithGoogle(query);
     }
     
     
