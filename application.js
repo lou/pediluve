@@ -39,8 +39,8 @@ google.load('search', '1');
                                   opacity: 0.'+$.random(2, 6)+'" />');
       $('#container').append(thumb);
       thumb.load(function(){
-        $(this).fadeIn(10000, function(){
-          $(this).fadeOut(30000, function(){
+        $(this).fadeIn(5000, function(){
+          $(this).fadeOut(9000, function(){
             $(this).remove();
           })
         });
