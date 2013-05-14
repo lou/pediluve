@@ -60,12 +60,21 @@ google.load('search', '1');
     function searchVideoComplete() {
       if (videoSearch.results && videoSearch.results.length > 0) {
         for(var cpt = 0; cpt < $.random(5, videoSearch.results.length) ; cpt++){
-          var videoWidth = $.random(200, 800);
-          var videoHeigth = $.random(200, 800);
-          var pos = setVideoPosition(videoWidth, videoHeigth);
-          //var embed = $('<embed width="'+videoWidth+'" height="'+videoHeigth+'" style="position:absolute;top:'+pos.y+'px;left:'+pos.x+'px" src="'+videoSearch.results[cpt].playUrl+'&rel=0&showsearch=0&showinfo=0" type="application/x-shockwave-flash"></embed>');
-          var embed = $('<embed width="'+videoWidth+'" height="'+videoHeigth+'" style="position:absolute;top:'+pos.y+'px;left:'+pos.x+'px" type="application/x-shockwave-flash" src="player.swf" style="undefined" id="mpl" name="mpl" quality="high" allowfullscreen="true" allowscriptaccess="always" wmode="opaque" flashvars="file='+videoSearch.results[cpt].playUrl+'&fs=1&source=uds&autoplay=1&rel=0&showsearch=0&showinfo=0&controlbar=none&backcolor=000000&autostart=true">');
-          $('body').append(embed);
+          if (videoSearch.results[cpt]){
+            var videoWidth = $.random(200, 800);
+            var videoHeight = $.random(200, 800);
+            var pos = setVideoPosition(videoWidth, videoHeight);
+            var embed = $('<div></div>', {
+              id: 'video-'+cpt,
+              style: 'position:absolute;top:'+pos.y+'px;left:'+pos.x+'px;',
+            });
+            $('body').append(embed);
+            jwplayer('video-'+cpt).setup({
+              file: videoSearch.results[cpt].url,
+              height: videoHeight,
+              width: videoWidth
+            }).play(true);
+          }
         }
       }
     }
@@ -134,8 +143,8 @@ google.load('search', '1');
       query = query.replace('+', ' ');
       $('#search_query').val(query);
       searchWithGoogleVideo(query);
-      searchWithFlickr(query);
-      //searchWithGoogle(query);
+      // searchWithFlickr(query);
+      // searchWithGoogle(query);
     }
     
     
