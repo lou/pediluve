@@ -79,7 +79,8 @@ google.load('search', '1');
               width: videoWidth
             });
             $(player.container).css({ top: pos.y });
-            player.play(true);
+            player.setControls(false)
+                  .play(true);
           }
         }
       }
@@ -148,7 +149,7 @@ google.load('search', '1');
     function search(query){
       query = query.replace('+', ' ');
       $('#search_query').val(query);
-      searchWithFlickr(query);
+      // searchWithFlickr(query);
       searchWithGoogleVideo(query);
       // searchWithGoogle(query);
     }
