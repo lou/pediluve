@@ -40,7 +40,7 @@ google.load('search', '1');
       $('#container').append(thumb);
       thumb.load(function(){
         $(this).fadeIn(6000, function(){
-          $(this).fadeOut(6000, function(){
+          $(this).fadeOut(10000, function(){
             $(this).remove();
           })
         });
