@@ -79,8 +79,8 @@ google.load('search', '1');
               width: videoWidth
             });
             $(player.container).css({ top: pos.y });
-            player.setControls(false)
-                  .play(true);
+            player.setControls(false);
+            player.play(true);
           }
         }
       }
