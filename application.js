@@ -149,7 +149,7 @@ google.load('search', '1');
     function search(query){
       query = query.replace('+', ' ');
       $('#search_query').val(query);
-      // searchWithFlickr(query);
+      searchWithFlickr(query);
       searchWithGoogleVideo(query);
       // searchWithGoogle(query);
     }
