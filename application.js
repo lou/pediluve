@@ -7,7 +7,7 @@ google.load('search', '1');
   
   jQuery.extend({
     random: function(MinV, MaxV) {
-      return Math.floor(MinV + Math.floor((MaxV - MinV + 1) * (Math.random() % 1)));
+      return MinV + Math.floor((MaxV - MinV + 1) * (Math.random() % 1));
     }
   });
   
@@ -20,8 +20,8 @@ google.load('search', '1');
     
     function setAssetPosition(videoWidth, videoHeight, ratio){
       var pos = { x : 0, y : 0 }
-      pos.x = $.random(-videoWidth/ratio, windowWidth-(videoWidth/ratio));
-      pos.y = $.random(-videoHeight/ratio, windowHeight-(videoHeight/ratio));
+      pos.x = Math.floor($.random(-videoWidth/ratio, windowWidth-(videoWidth/ratio)));
+      pos.y = Math.floor($.random(-videoHeight/ratio, windowHeight-(videoHeight/ratio)));
       return pos;
     }
     
@@ -52,7 +52,7 @@ google.load('search', '1');
       if (videoSearch.results && videoSearch.results.length > 0) {
         for(var cpt = 0; cpt < $.random(5, videoSearch.results.length) ; cpt++){
           if (videoSearch.results[cpt]){
-            var videoWidth = $.random(windowWidth/4, windowWidth/2);
+            var videoWidth = $.random(windowWidth/4, windowHeight/2);
             var videoHeight = $.random(windowHeight/4, windowHeight/2);
             var pos = setAssetPosition(videoWidth, videoHeight, 200);
             var wrapper = $('<div></div>', {
@@ -104,7 +104,7 @@ google.load('search', '1');
           }
           if (flickrPage < 1000){
             flickrPage++;
-            searchWithFlickr(query);
+            setTimeout(searchWithFlickr(query), 5000);
           }
         }
       )
